@@ -4,8 +4,7 @@
 #include <iostream>
 
 SvgEdit::SvgEdit()
-    : m_VBox(Gtk::ORIENTATION_VERTICAL), m_Button_Quit("_Quit", true),
-      m_Button_Buffer1("Use buffer 1") {
+    : m_VBox(Gtk::ORIENTATION_VERTICAL) {
   set_border_width(5);
   set_default_size(400, 200);
 
@@ -23,20 +22,13 @@ SvgEdit::SvgEdit()
   // Add buttons:
   m_VBox.pack_start(m_ButtonBox, Gtk::PACK_SHRINK);
 
-  m_ButtonBox.pack_start(m_Button_Buffer1, Gtk::PACK_SHRINK);
-  m_ButtonBox.pack_start(m_Button_Quit, Gtk::PACK_SHRINK);
   m_ButtonBox.set_border_width(5);
   m_ButtonBox.set_spacing(5);
   m_ButtonBox.set_layout(Gtk::BUTTONBOX_END);
 
   // Connect signals:
-  m_Button_Quit.signal_clicked().connect(
-      sigc::mem_fun(*this, &SvgEdit::on_button_quit));
-  m_Button_Buffer1.signal_clicked().connect(
-      sigc::mem_fun(*this, &SvgEdit::on_button_buffer1));
-
   fill_buffers();
-  on_button_buffer1();
+  m_TextView.set_buffer(m_refTextBuffer1);
   show_all_children();
 }
 
@@ -44,11 +36,12 @@ void SvgEdit::on_startup() {}
 
 void SvgEdit::fill_buffers() {
   m_refTextBuffer1 = Gtk::TextBuffer::create();
-  m_refTextBuffer1->set_text("This is the text from TextBuffer #1.");
+  m_refTextBuffer1->set_text("");
 }
 
 SvgEdit::~SvgEdit() {}
 
-void SvgEdit::on_button_quit() { hide(); }
-
-void SvgEdit::on_button_buffer1() { m_TextView.set_buffer(m_refTextBuffer1); }
+void SvgEdit::load_file(const std::string &filename) {
+  std::cout << "Load of " << filename << " requested." << std::endl;
+  
+}

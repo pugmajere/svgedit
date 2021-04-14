@@ -1,5 +1,5 @@
 #include "application.h"
-#include "svgedit.h"
+#include <gtkmm/messagedialog.h>
 #include <iostream>
 
 SvgEditApplication::SvgEditApplication()
@@ -87,11 +87,27 @@ void SvgEditApplication::on_activate() {
   // The application has been started, so let's show a window.
   // A real application might want to reuse this window in on_open(),
   // when asked to open a file, if no changes have been made yet.
-  create_window();
+  create_edit_window();
+  create_display_window();
 }
 
-void SvgEditApplication::create_window() {
+void SvgEditApplication::create_edit_window() {
   auto win = new SvgEdit();
+  svgedit = win;
+
+  // Make sure that the application runs for as long this window is still open:
+  add_window(*win);
+
+  // Delete the window when it is hidden.
+  // That's enough for this simple example.
+  win->signal_hide().connect(sigc::bind<Gtk::Window *>(
+      sigc::mem_fun(*this, &SvgEditApplication::on_window_hide), win));
+
+  win->show_all();
+}
+void SvgEditApplication::create_display_window() {
+  auto win = new SvgDisplay();
+  svgdisplay = win;
 
   // Make sure that the application runs for as long this window is still open:
   add_window(*win);
@@ -107,7 +123,45 @@ void SvgEditApplication::create_window() {
 void SvgEditApplication::on_window_hide(Gtk::Window *window) { delete window; }
 
 void SvgEditApplication::on_menu_file_open() {
-  std::cout << "A File|Open menu item was selected." << std::endl;
+  Gtk::FileChooserDialog dialog("Please choose a file",
+                                Gtk::FILE_CHOOSER_ACTION_OPEN);
+
+  //Add response buttons the the dialog:
+  dialog.add_button("_Cancel", Gtk::RESPONSE_CANCEL);
+  dialog.add_button("_Open", Gtk::RESPONSE_OK);
+
+  //Add filters, so that only certain file types can be selected:
+  auto filter_svg = Gtk::FileFilter::create();
+  filter_svg->set_name("Svg files");
+  filter_svg->add_pattern("*.svg");
+  dialog.add_filter(filter_svg);
+
+  //Show the dialog and wait for a user response:
+  int result = dialog.run();
+
+  //Handle the response:
+  switch(result)
+  {
+    case(Gtk::RESPONSE_OK):
+    {
+      //Notice that this is a std::string, not a Glib::ustring.
+      std::string filename = dialog.get_filename();
+      std::cout << "File selected: " <<  filename << std::endl;
+      svgedit->load_file(filename);
+      svgdisplay->load_file(filename);
+      break;
+    }
+    case(Gtk::RESPONSE_CANCEL):
+    {
+      std::cout << "Cancel clicked." << std::endl;
+      break;
+    }
+    default:
+    {
+      std::cout << "Unexpected button clicked." << std::endl;
+      break;
+    }
+  }
 }
 
 void SvgEditApplication::on_menu_file_quit() {
@@ -122,11 +176,15 @@ void SvgEditApplication::on_menu_file_quit() {
   // must remove the window from the application. One way of doing this
   // is to hide the window.
   std::vector<Gtk::Window *> windows = get_windows();
-  if (windows.size() > 0)
-    windows[0]
-        ->hide(); // In this simple case, we know there is only one window.
+  for (const auto win : windows) {
+    win->hide();
+  }
 }
 
 void SvgEditApplication::on_menu_help_about() {
-  std::cout << "App|Help|About was selected." << std::endl;
+  Gtk::MessageDialog dialog("SvgEdit - A lightweight SVG Editor");
+  dialog.set_secondary_text(
+          "Copyright 2021, Ryan Anderson.");
+
+  dialog.run();
 }

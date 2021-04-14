@@ -1,10 +1,10 @@
 CXX = clang
 PROGRAM = svgedit
-CXXFILES = main.cc svgedit.cc application.cc
+CXXFILES = main.cc svgedit.cc application.cc svgdisplay.cc svgrender.cc
 OBJS = $(CXXFILES:.cc=.o)
 DEPDIR = .deps
-CXXFLAGS = `pkg-config --cflags gtkmm-3.0` -std=c++11 -Wall -g
-LIBS = `pkg-config --libs gtkmm-3.0` -lstdc++
+CXXFLAGS = `pkg-config --cflags gtkmm-3.0 librsvg-2.0` -std=c++11 -Wall -g
+LIBS = `pkg-config --libs gtkmm-3.0 librsvg-2.0` -lstdc++
 all: $(PROGRAM)
 -include $(OBJS:%.o=$(DEPDIR)/%.Po)
 %.o: %.cc

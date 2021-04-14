@@ -1,7 +1,7 @@
 // File: svgedit.h
 
-#ifndef GTKMM_EXAMPLE_SVGEDIT_H
-#define GTKMM_EXAMPLE_SVGEDIT_H
+#ifndef GTKMM_SVGEDIT_H
+#define GTKMM_SVGEDIT_H
 
 #include <gtkmm.h>
 #include <gtkmm/button.h>
@@ -13,6 +13,8 @@ public:
   SvgEdit();
   virtual ~SvgEdit();
   virtual void on_startup();
+
+  void load_file(const std::string &filename);
 
 protected:
   void fill_buffers();

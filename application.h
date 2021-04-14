@@ -2,6 +2,8 @@
 #define SVGEDIT_APPLICATION_H
 
 #include <gtkmm.h>
+#include "svgdisplay.h"
+#include "svgedit.h"
 
 class SvgEditApplication : public Gtk::Application {
 protected:
@@ -16,7 +18,8 @@ protected:
   void on_activate() override;
 
 private:
-  void create_window();
+  void create_edit_window();
+  void create_display_window();
 
   void on_window_hide(Gtk::Window *window);
   void on_menu_file_open();
@@ -24,6 +27,8 @@ private:
   void on_menu_help_about();
 
   Glib::RefPtr<Gtk::Builder> m_refBuilder;
+  SvgEdit* svgedit;
+  SvgDisplay* svgdisplay;
 };
 
 #endif /* SVGEDIT_APPLICATION_H */
