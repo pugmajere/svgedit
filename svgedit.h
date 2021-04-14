@@ -3,21 +3,34 @@
 #ifndef GTKMM_EXAMPLE_SVGEDIT_H
 #define GTKMM_EXAMPLE_SVGEDIT_H
 
+#include <gtkmm.h>
 #include <gtkmm/button.h>
 #include <gtkmm/window.h>
 
-class SvgEdit : public Gtk::Window {
+class SvgEdit : public Gtk::ApplicationWindow {
 
 public:
   SvgEdit();
   virtual ~SvgEdit();
+  virtual void on_startup();
 
 protected:
-  // Signal handlers:
-  void on_button_clicked();
+  void fill_buffers();
 
-  // Member widgets:
-  Gtk::Button m_button;
+  // Signal handlers:
+  void on_button_quit();
+  void on_button_buffer1();
+
+  // Child widgets:
+  Gtk::Box m_VBox;
+
+  Gtk::ScrolledWindow m_ScrolledWindow;
+  Gtk::TextView m_TextView;
+
+  Glib::RefPtr<Gtk::TextBuffer> m_refTextBuffer1;
+
+  Gtk::ButtonBox m_ButtonBox;
+  Gtk::Button m_Button_Quit, m_Button_Buffer1;
 };
 
 #endif

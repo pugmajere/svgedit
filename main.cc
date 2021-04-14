@@ -1,13 +1,15 @@
 // File: main.cc
 
-#include "svgedit.h"
+#include "application.h"
 #include <gtkmm/application.h>
 
 int main(int argc, char *argv[]) {
-  auto app = Gtk::Application::create(argc, argv, "com.michonline.svgedit");
+  auto application = SvgEditApplication::create();
 
-  SvgEdit svgedit;
-
-  // Shows the window and returns when it is closed.
-  return app->run(svgedit);
+  // Start the application, showing the initial window,
+  // and opening extra windows for any files that it is asked to open,
+  // for instance as a command-line parameter.
+  // run() will return when the last window has been closed by the user.
+  const int status = application->run(argc, argv);
+  return status;
 }

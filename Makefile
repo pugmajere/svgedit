@@ -1,6 +1,6 @@
 CXX = clang
 PROGRAM = svgedit
-CXXFILES = main.cc svgedit.cc
+CXXFILES = main.cc svgedit.cc application.cc
 OBJS = $(CXXFILES:.cc=.o)
 DEPDIR = .deps
 CXXFLAGS = `pkg-config --cflags gtkmm-3.0` -std=c++11 -Wall -g
