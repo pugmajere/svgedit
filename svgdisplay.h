@@ -1,10 +1,10 @@
 #ifndef GTKMM_SVGDISPLAY_H
 #define GTKMM_SVGDISPLAY_H
 
+#include "svgrender.h"
 #include <gtkmm.h>
 #include <gtkmm/button.h>
 #include <gtkmm/window.h>
-#include "svgrender.h"
 
 class SvgDisplay : public Gtk::Window {
 

@@ -11,7 +11,7 @@ SvgDisplay::SvgDisplay() {
   // Build the main layout
   add(renderArea_);
   renderArea_.show();
-  
+
   show_all_children();
 }
 

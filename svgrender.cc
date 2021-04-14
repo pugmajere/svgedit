@@ -2,16 +2,11 @@
 #include <cairomm/context.h>
 #include <iostream>
 
-SvgRenderArea::SvgRenderArea(): rsvgh_(NULL)
-{
-}
+SvgRenderArea::SvgRenderArea() : rsvgh_(NULL) {}
 
-SvgRenderArea::~SvgRenderArea()
-{
-}
+SvgRenderArea::~SvgRenderArea() {}
 
-bool SvgRenderArea::on_draw(const Cairo::RefPtr<Cairo::Context>& cr)
-{
+bool SvgRenderArea::on_draw(const Cairo::RefPtr<Cairo::Context> &cr) {
   if (rsvgh_) {
     auto success = rsvg_handle_render_cairo(rsvgh_, cr->cobj());
     if (!success) {
@@ -24,9 +19,9 @@ bool SvgRenderArea::on_draw(const Cairo::RefPtr<Cairo::Context>& cr)
 
 void SvgRenderArea::force_redraw() {
   auto win = get_window();
-  if (win)
-  {
-    Gdk::Rectangle r(0, 0, get_allocation().get_width(), get_allocation().get_height());
+  if (win) {
+    Gdk::Rectangle r(0, 0, get_allocation().get_width(),
+                     get_allocation().get_height());
     win->invalidate_rect(r, false);
   }
 }

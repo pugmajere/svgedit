@@ -126,41 +126,37 @@ void SvgEditApplication::on_menu_file_open() {
   Gtk::FileChooserDialog dialog("Please choose a file",
                                 Gtk::FILE_CHOOSER_ACTION_OPEN);
 
-  //Add response buttons the the dialog:
+  // Add response buttons the the dialog:
   dialog.add_button("_Cancel", Gtk::RESPONSE_CANCEL);
   dialog.add_button("_Open", Gtk::RESPONSE_OK);
 
-  //Add filters, so that only certain file types can be selected:
+  // Add filters, so that only certain file types can be selected:
   auto filter_svg = Gtk::FileFilter::create();
   filter_svg->set_name("Svg files");
   filter_svg->add_pattern("*.svg");
   dialog.add_filter(filter_svg);
 
-  //Show the dialog and wait for a user response:
+  // Show the dialog and wait for a user response:
   int result = dialog.run();
 
-  //Handle the response:
-  switch(result)
-  {
-    case(Gtk::RESPONSE_OK):
-    {
-      //Notice that this is a std::string, not a Glib::ustring.
-      std::string filename = dialog.get_filename();
-      std::cout << "File selected: " <<  filename << std::endl;
-      svgedit->load_file(filename);
-      svgdisplay->load_file(filename);
-      break;
-    }
-    case(Gtk::RESPONSE_CANCEL):
-    {
-      std::cout << "Cancel clicked." << std::endl;
-      break;
-    }
-    default:
-    {
-      std::cout << "Unexpected button clicked." << std::endl;
-      break;
-    }
+  // Handle the response:
+  switch (result) {
+  case (Gtk::RESPONSE_OK): {
+    // Notice that this is a std::string, not a Glib::ustring.
+    std::string filename = dialog.get_filename();
+    std::cout << "File selected: " << filename << std::endl;
+    svgedit->load_file(filename);
+    svgdisplay->load_file(filename);
+    break;
+  }
+  case (Gtk::RESPONSE_CANCEL): {
+    std::cout << "Cancel clicked." << std::endl;
+    break;
+  }
+  default: {
+    std::cout << "Unexpected button clicked." << std::endl;
+    break;
+  }
   }
 }
 
@@ -183,8 +179,7 @@ void SvgEditApplication::on_menu_file_quit() {
 
 void SvgEditApplication::on_menu_help_about() {
   Gtk::MessageDialog dialog("SvgEdit - A lightweight SVG Editor");
-  dialog.set_secondary_text(
-          "Copyright 2021, Ryan Anderson.");
+  dialog.set_secondary_text("Copyright 2021, Ryan Anderson.");
 
   dialog.run();
 }

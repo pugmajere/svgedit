@@ -3,8 +3,7 @@
 #include "svgedit.h"
 #include <iostream>
 
-SvgEdit::SvgEdit()
-    : m_VBox(Gtk::ORIENTATION_VERTICAL) {
+SvgEdit::SvgEdit() : m_VBox(Gtk::ORIENTATION_VERTICAL) {
   set_border_width(5);
   set_default_size(400, 200);
 
@@ -43,5 +42,4 @@ SvgEdit::~SvgEdit() {}
 
 void SvgEdit::load_file(const std::string &filename) {
   std::cout << "Load of " << filename << " requested." << std::endl;
-  
 }

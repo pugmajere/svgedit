@@ -1,9 +1,9 @@
 #ifndef SVGEDIT_APPLICATION_H
 #define SVGEDIT_APPLICATION_H
 
-#include <gtkmm.h>
 #include "svgdisplay.h"
 #include "svgedit.h"
+#include <gtkmm.h>
 
 class SvgEditApplication : public Gtk::Application {
 protected:
@@ -27,8 +27,8 @@ private:
   void on_menu_help_about();
 
   Glib::RefPtr<Gtk::Builder> m_refBuilder;
-  SvgEdit* svgedit;
-  SvgDisplay* svgdisplay;
+  SvgEdit *svgedit;
+  SvgDisplay *svgdisplay;
 };
 
 #endif /* SVGEDIT_APPLICATION_H */
