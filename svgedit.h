@@ -6,18 +6,17 @@
 #include <gtkmm/button.h>
 #include <gtkmm/window.h>
 
-class SvgEdit : public Gtk::Window
-{
+class SvgEdit : public Gtk::Window {
 
 public:
   SvgEdit();
   virtual ~SvgEdit();
 
 protected:
-  //Signal handlers:
+  // Signal handlers:
   void on_button_clicked();
 
-  //Member widgets:
+  // Member widgets:
   Gtk::Button m_button;
 };
 
