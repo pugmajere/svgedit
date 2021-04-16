@@ -29,17 +29,20 @@ void SvgRenderArea::force_redraw() {
 void SvgRenderArea::load_file(const std::string &filename) {
   GError *err = NULL;
   if (rsvgh_) {
-    free(rsvgh_);
+    g_clear_object(&rsvgh_);
   }
   rsvgh_ = rsvg_handle_new_from_file(filename.c_str(), &err);
   if (err) {
     std::cout << "error loading file " << (*err).message << std::endl;
     if (rsvgh_) {
-      free(rsvgh_);
+      g_clear_object(&rsvgh_);
     }
+    return;
   }
   if (!rsvgh_) {
     std::cout << "some error" << std::endl;
+    return;
   }
+  force_redraw();
   return;
 };

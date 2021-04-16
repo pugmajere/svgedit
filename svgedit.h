@@ -1,11 +1,12 @@
 // File: svgedit.h
 
-#ifndef GTKMM_SVGEDIT_H
-#define GTKMM_SVGEDIT_H
+#ifndef SVGEDIT_H
+#define SVGEDIT_H
 
 #include <gtkmm.h>
 #include <gtkmm/button.h>
 #include <gtkmm/window.h>
+#include <rapidxml/rapidxml.hpp>
 
 class SvgEdit : public Gtk::ApplicationWindow {
 
@@ -21,18 +22,33 @@ protected:
 
   // Signal handlers:
   void on_button_quit();
-  void on_button_buffer1();
+  void on_treeview_row_activated(const Gtk::TreeModel::Path& path, Gtk::TreeViewColumn* column);
 
   // Child widgets:
-  Gtk::Box m_VBox;
+  class ModelColumns : public Gtk::TreeModel::ColumnRecord {
+  public:
+    ModelColumns() {
+      add(m_col_id);
+      add(m_col_name);
+    }
+    Gtk::TreeModelColumn<Glib::ustring> m_col_id;
+    Gtk::TreeModelColumn<Glib::ustring> m_col_name;
+  };
 
+  ModelColumns m_Columns;
+  Gtk::Box m_VBox;
   Gtk::ScrolledWindow m_ScrolledWindow;
+
+  Gtk::TreeView m_TreeView;
+  Glib::RefPtr<Gtk::TreeStore> m_refTreeModel;
+  
   Gtk::TextView m_TextView;
 
   Glib::RefPtr<Gtk::TextBuffer> m_refTextBuffer1;
 
-  Gtk::ButtonBox m_ButtonBox;
-  Gtk::Button m_Button_Quit, m_Button_Buffer1;
+  rapidxml::xml_document<> m_Doc;
+  rapidxml::xml_node<> *m_GNode;
+  char *m_Contents;
 };
 
 #endif
