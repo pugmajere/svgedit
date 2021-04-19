@@ -1,10 +1,10 @@
 // File: svgedit.cc
 
 #include "svgedit.h"
-#include <iostream>
-#include <glibmm.h>
-#include <rapidxml/rapidxml.hpp>
 #include "rapidxml_walk.h"
+#include <glibmm.h>
+#include <iostream>
+#include <rapidxml/rapidxml.hpp>
 
 SvgEdit::SvgEdit() : m_VBox(Gtk::ORIENTATION_VERTICAL) {
   set_border_width(5);
@@ -32,8 +32,9 @@ SvgEdit::SvgEdit() : m_VBox(Gtk::ORIENTATION_VERTICAL) {
   m_TreeView.set_enable_tree_lines(true);
 
   // Connect signals:
-  m_TreeView.signal_row_activated().connect(sigc::mem_fun(*this, &SvgEdit::on_treeview_row_activated));
-  
+  m_TreeView.signal_row_activated().connect(
+      sigc::mem_fun(*this, &SvgEdit::on_treeview_row_activated));
+
   fill_buffers();
   m_TextView.set_buffer(m_refTextBuffer1);
   show_all_children();
@@ -46,18 +47,15 @@ void SvgEdit::fill_buffers() {
   m_refTextBuffer1->set_text("");
 }
 
-SvgEdit::~SvgEdit() {
-}
+SvgEdit::~SvgEdit() {}
 
-void SvgEdit::on_treeview_row_activated(const Gtk::TreeModel::Path& path,
-        Gtk::TreeViewColumn* /* column */)
-{
+void SvgEdit::on_treeview_row_activated(const Gtk::TreeModel::Path &path,
+                                        Gtk::TreeViewColumn * /* column */) {
   Gtk::TreeModel::iterator iter = m_refTreeModel->get_iter(path);
-  if(iter)
-  {
+  if (iter) {
     Gtk::TreeModel::Row row = *iter;
-    std::cout << "Row activated: ID=" << row[m_Columns.m_col_id] << ", Name="
-        << row[m_Columns.m_col_name] << std::endl;
+    std::cout << "Row activated: ID=" << row[m_Columns.m_col_id]
+              << ", Name=" << row[m_Columns.m_col_name] << std::endl;
   }
 }
 
@@ -67,18 +65,19 @@ void SvgEdit::load_file(const std::string &filename) {
     std::string contents(Glib::file_get_contents(filename));
     m_refTextBuffer1->set_text(contents);
 
-    Gtk::TreeModel::Children::iterator iter = m_refTreeModel->children().begin();
-    while (iter != m_refTreeModel->children().end())
-    {
-        iter = m_refTreeModel->erase(iter);
+    Gtk::TreeModel::Children::iterator iter =
+        m_refTreeModel->children().begin();
+    while (iter != m_refTreeModel->children().end()) {
+      iter = m_refTreeModel->erase(iter);
     }
 
-    char *m_Contents = new char [contents.length()+1];
+    char *m_Contents = new char[contents.length() + 1];
     strcpy(m_Contents, contents.c_str());
     m_Doc.parse<0>(m_Contents);
 
     // Find the "g" node type
-    for (auto *node = m_Doc.first_node()->first_node(); node; node = node->next_sibling()) {
+    for (auto *node = m_Doc.first_node()->first_node(); node;
+         node = node->next_sibling()) {
       std::cout << "node name = " << node->name() << std::endl;
       if (strcmp(node->name(), "g") == 0) {
         m_GNode = node;
@@ -88,15 +87,15 @@ void SvgEdit::load_file(const std::string &filename) {
 
     // Loop over the path nodes:
     if (m_GNode) {
-      for (auto *path = m_GNode->first_node("path"); path; path = path->next_sibling("path")) {
+      for (auto *path = m_GNode->first_node("path"); path;
+           path = path->next_sibling("path")) {
         std::cout << "path node " << path->name() << std::endl;
         auto row = *(m_refTreeModel->append());
         row[m_Columns.m_col_id] = path->first_attribute("id")->value();
         row[m_Columns.m_col_name] = path->first_attribute("d")->value();
       }
     }
-  }
-  catch (const Glib::FileError& e) {
+  } catch (const Glib::FileError &e) {
     std::cout << "Error opening " << filename << ": " << e.what() << std::endl;
   }
 }

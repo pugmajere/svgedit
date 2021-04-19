@@ -22,7 +22,8 @@ protected:
 
   // Signal handlers:
   void on_button_quit();
-  void on_treeview_row_activated(const Gtk::TreeModel::Path& path, Gtk::TreeViewColumn* column);
+  void on_treeview_row_activated(const Gtk::TreeModel::Path &path,
+                                 Gtk::TreeViewColumn *column);
 
   // Child widgets:
   class ModelColumns : public Gtk::TreeModel::ColumnRecord {
@@ -41,7 +42,7 @@ protected:
 
   Gtk::TreeView m_TreeView;
   Glib::RefPtr<Gtk::TreeStore> m_refTreeModel;
-  
+
   Gtk::TextView m_TextView;
 
   Glib::RefPtr<Gtk::TextBuffer> m_refTextBuffer1;
