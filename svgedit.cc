@@ -5,6 +5,9 @@
 #include <glibmm.h>
 #include <iostream>
 #include <rapidxml/rapidxml.hpp>
+#include <antlr4-runtime.h>
+#include "antlr/pathLexer.h"
+#include "antlr/pathParser.h"
 
 SvgEdit::SvgEdit() : m_VBox(Gtk::ORIENTATION_VERTICAL) {
   set_border_width(5);
