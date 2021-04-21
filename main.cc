@@ -1,7 +1,8 @@
 // File: main.cc
 
-#include "application.h"
 #include <gtkmm/application.h>
+
+#include "application.h"
 
 int main(int argc, char *argv[]) {
   auto application = SvgEditApplication::create();

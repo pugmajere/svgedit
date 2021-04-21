@@ -3,22 +3,23 @@
 
 #include <gtkmm/drawingarea.h>
 #include <librsvg/rsvg.h>
+
 #include <memory>
 
 class SvgRenderArea : public Gtk::DrawingArea {
-public:
+ public:
   SvgRenderArea();
   virtual ~SvgRenderArea();
   void force_redraw();
 
   void load_file(const std::string &filename);
 
-protected:
+ protected:
   // Override default signal handler:
   bool on_draw(const Cairo::RefPtr<Cairo::Context> &cr) override;
 
-private:
+ private:
   RsvgHandle *rsvgh_;
 };
 
-#endif // GTKMM_SVGRENDER_H
+#endif  // GTKMM_SVGRENDER_H

@@ -6,18 +6,18 @@
 #include <gtkmm.h>
 #include <gtkmm/button.h>
 #include <gtkmm/window.h>
+
 #include <rapidxml/rapidxml.hpp>
 
 class SvgEdit : public Gtk::ApplicationWindow {
-
-public:
+ public:
   SvgEdit();
   virtual ~SvgEdit();
   virtual void on_startup();
 
   void load_file(const std::string &filename);
 
-protected:
+ protected:
   void fill_buffers();
 
   // Signal handlers:
@@ -27,7 +27,7 @@ protected:
 
   // Child widgets:
   class ModelColumns : public Gtk::TreeModel::ColumnRecord {
-  public:
+   public:
     ModelColumns() {
       add(m_col_id);
       add(m_col_name);

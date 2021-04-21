@@ -1,5 +1,7 @@
 #include "svgrender.h"
+
 #include <cairomm/context.h>
+
 #include <iostream>
 
 SvgRenderArea::SvgRenderArea() : rsvgh_(NULL) {}

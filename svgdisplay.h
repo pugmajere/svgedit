@@ -1,21 +1,21 @@
 #ifndef GTKMM_SVGDISPLAY_H
 #define GTKMM_SVGDISPLAY_H
 
-#include "svgrender.h"
 #include <gtkmm.h>
 #include <gtkmm/button.h>
 #include <gtkmm/window.h>
 
-class SvgDisplay : public Gtk::Window {
+#include "svgrender.h"
 
-public:
+class SvgDisplay : public Gtk::Window {
+ public:
   SvgDisplay();
   virtual ~SvgDisplay();
   virtual void on_startup();
 
   void load_file(const std::string &filename);
 
-protected:
+ protected:
   Gtk::Grid m_Container;
   SvgRenderArea renderArea_;
 };

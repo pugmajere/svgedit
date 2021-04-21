@@ -1,6 +1,7 @@
 // File: svgdisplay.cc
 
 #include "svgdisplay.h"
+
 #include <iostream>
 
 SvgDisplay::SvgDisplay() {

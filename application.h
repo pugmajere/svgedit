@@ -1,23 +1,24 @@
 #ifndef SVGEDIT_APPLICATION_H
 #define SVGEDIT_APPLICATION_H
 
-#include "svgdisplay.h"
-#include "svgedit.h"
 #include <gtkmm.h>
 
+#include "svgdisplay.h"
+#include "svgedit.h"
+
 class SvgEditApplication : public Gtk::Application {
-protected:
+ protected:
   SvgEditApplication();
 
-public:
+ public:
   static Glib::RefPtr<SvgEditApplication> create();
 
-protected:
+ protected:
   // Overrides of default signal handlers:
   void on_startup() override;
   void on_activate() override;
 
-private:
+ private:
   void create_edit_window();
   void create_display_window();
 

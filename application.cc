@@ -1,5 +1,7 @@
 #include "application.h"
+
 #include <gtkmm/messagedialog.h>
+
 #include <iostream>
 
 SvgEditApplication::SvgEditApplication()
@@ -141,28 +143,28 @@ void SvgEditApplication::on_menu_file_open() {
 
   // Handle the response:
   switch (result) {
-  case (Gtk::RESPONSE_OK): {
-    // Notice that this is a std::string, not a Glib::ustring.
-    std::string filename = dialog.get_filename();
-    std::cout << "File selected: " << filename << std::endl;
-    svgedit->load_file(filename);
-    svgdisplay->load_file(filename);
-    break;
-  }
-  case (Gtk::RESPONSE_CANCEL): {
-    std::cout << "Cancel clicked." << std::endl;
-    break;
-  }
-  default: {
-    std::cout << "Unexpected button clicked." << std::endl;
-    break;
-  }
+    case (Gtk::RESPONSE_OK): {
+      // Notice that this is a std::string, not a Glib::ustring.
+      std::string filename = dialog.get_filename();
+      std::cout << "File selected: " << filename << std::endl;
+      svgedit->load_file(filename);
+      svgdisplay->load_file(filename);
+      break;
+    }
+    case (Gtk::RESPONSE_CANCEL): {
+      std::cout << "Cancel clicked." << std::endl;
+      break;
+    }
+    default: {
+      std::cout << "Unexpected button clicked." << std::endl;
+      break;
+    }
   }
 }
 
 void SvgEditApplication::on_menu_file_quit() {
   std::cout << G_STRFUNC << std::endl;
-  quit(); // Not really necessary, when Gtk::Widget::hide() is called.
+  quit();  // Not really necessary, when Gtk::Widget::hide() is called.
 
   // Gio::Application::quit() will make Gio::Application::run() return,
   // but it's a crude way of ending the program. The window is not removed
