@@ -200,18 +200,17 @@ void SvgEdit::load_file(const std::string &filename) {
         for (auto cmd : commands) {
           Gtk::TreeModel::Row cmdrow =
               *(m_refTreeModel->append(row.children()));
-          cmdrow[m_Columns.m_col_id] = path->first_attribute("id")->value() +
-                                       string_format("_%d", count);
+          cmdrow[m_Columns.m_col_id] = string_format("%d", count);
           cmdrow[m_Columns.m_col_name] =
-              string_format("%d points", cmd.points_.size());
+              string_format("cmd %s, %d points", cmd.command_type_.c_str(),
+                            cmd.points_.size());
           int pcount = 0;
           for (auto pt : cmd.points_) {
             Gtk::TreeModel::Row ptrow =
                 *(m_refTreeModel->append(cmdrow.children()));
-            ptrow[m_Columns.m_col_id] = path->first_attribute("id")->value() +
-                                        string_format("_%d", count) +
-                                        string_format("_%d", pcount);
-            ptrow[m_Columns.m_col_name] = string_format("%f, %f", pt.x_, pt.y_);
+            ptrow[m_Columns.m_col_id] = string_format("%d", pcount);
+            ptrow[m_Columns.m_col_name] =
+                string_format("%.2f, %.2f", pt.x_, pt.y_);
             pcount++;
           }
           count++;
