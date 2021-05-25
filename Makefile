@@ -3,7 +3,8 @@ PROGRAM = svgedit
 CXXFILES = main.cc svgedit.cc application.cc svgdisplay.cc svgrender.cc
 OBJS = $(CXXFILES:.cc=.o)
 DEPDIR = .deps
-CXXFLAGS = `pkg-config --cflags gtkmm-3.0 glibmm-2.4 librsvg-2.0` -I/usr/include/rapidxml/ -Iantlr/ -I/usr/include/antlr4-runtime -std=c++14 -Wall -g
+CXXLIBFLAGS=`pkg-config --cflags gtkmm-3.0 glibmm-2.4 librsvg-2.0` -I/usr/include/rapidxml/ -Iantlr/ -I/usr/include/antlr4-runtime
+CXXFLAGS =$(CXXLIBFLAGS) -std=c++14 -Wall -g
 LIBS = `pkg-config --libs gtkmm-3.0 glibmm-2.4 librsvg-2.0` -lstdc++ -lantlr4-runtime
 
 ANTLR_CLASSPATH=/usr/share/java/antlr4-runtime.jar
@@ -18,10 +19,18 @@ RED=$(shell tput setaf 1)
 YELLOW=$(shell tput setaf 3)
 RESET=$(shell tput sgr0)
 
-all: $(PROGRAM)
+DEVBITS=.dir-locals.el
+
+all: $(PROGRAM) $(DEVBITS)
 -include $(OBJS:%.o=$(DEPDIR)/%.Po)
 
 $(OBJS) $(ANTLR_OBJS): Makefile
+
+.dir-locals.el: Makefile
+	@(echo "((nil . ((flycheck-clang-include-path . (" ; \
+	echo "$(CXXLIBFLAGS)" | xargs -n1 | grep -e '-I' | sed -e 's/-I//g' | xargs -n1 -I{} echo "                      " \"{}\" ; \
+	echo ")))))") > $@
+
 
 %.o: %.cc
 	@echo "$(YELLOW)[$(RED)cpp:$(RESET)$@$(YELLOW)]$(RESET) "
